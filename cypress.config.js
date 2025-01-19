@@ -2,17 +2,18 @@ const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'https://the-internet.herokuapp.com', // URL stranice
+    baseUrl: 'https://the-internet.herokuapp.com',
     setupNodeEvents(on, config) {
-      // Postavi logovanje na minimalno
-      config.env.logCommand = false;
+      console.log('Video recording enabled:', config.video);
+      console.log('Screenshots on failure enabled:', config.screenshotOnRunFailure);
       return config;
     },
     retries: {
-      runMode: 2,
-      openMode: 0,
+      runMode: 2, // Number of retries in CLI (headless) mode
+      openMode: 0, // Number of retries in "open" mode (interactive)
     },
-    video: true, // Snimi testove
-    screenshotOnRunFailure: true, // Screenshot pri grešci
+    video: true, // Enable video recording for each test
+    screenshotOnRunFailure: true, // Capture a screenshot whenever a test fails
+  },
   },
 });

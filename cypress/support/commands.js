@@ -24,23 +24,23 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-// Komanda koja uhvati broj sa canvasa pozivajući API `/challenging_dom`
+// Command to retrieve the number from the canvas by calling the `/challenging_dom` API
 Cypress.Commands.add('getCanvasNumber', () => {
   return cy.request('/challenging_dom').then((response) => {
-	// Ekstraktuje broj iz odgovora koristeći regularni izraz
+	// Extract the number from the response using a regular expression
     const match = response.body.match(/canvas\.strokeText\('Answer: (\d+)'/);
-    expect(match).to.not.be.null; // Provera da broj postoji
-    return cy.wrap(parseInt(match[1], 10)); // Vraćanje kroz Cypress wrap
+    expect(match).to.not.be.null; // Verify that the number exists
+    return cy.wrap(parseInt(match[1], 10)); // Return the number wrapped in a Cypress chain
   });
 });
 
- // Komanda koja poredi dva broja i osigurava da nisu isti
+// Command to compare two numbers and ensure they are different
  Cypress.Commands.add('verifyNumbersAreDifferent', (previousNumber, newNumber) => {
   cy.log(`Comparing numbers: ${previousNumber} and ${newNumber}`);
-  expect(newNumber).to.not.eq(previousNumber); // Proverava da su brojevi različiti
+  expect(newNumber).to.not.eq(previousNumber); // Verify that the numbers are different
 });
 
-// Komanda koja proverava da li je dugme vidljivo i aktivno, pa zatim klikne na njega
+// Command to check if a button is visible and enabled, then click on it
 Cypress.Commands.add('clickButton', (selector) => {
   return cy.get(selector).first()
   .should('be.visible')

@@ -1,7 +1,7 @@
 
 describe('Challenging DOM Tests', () => {
   beforeEach(() => {
-    // Proveri da API vraća status 200 i poseti stranicu
+    // Verify that the API returns a 200 status and visit the page
     cy.request('/challenging_dom').then((response) => {
       expect(response.status).to.eq(200);
     });
@@ -9,18 +9,18 @@ describe('Challenging DOM Tests', () => {
   });
 
   it('Clicks each main button and verifies canvas number changes', () => {
-    // Dohvati početni broj sa canvasa
+    // Retrieve the initial number from the canvas
     cy.getCanvasNumber().then((currentNumber) => {
       cy.log(`Current number: ${currentNumber}`);
       
 		const buttons = ['.button', '.button.alert', '.button.success'];
 
-		// Iteriraj kroz dugmad i primeni komande
+		// Iterate through the buttons and apply commands
 		cy.wrap(buttons).each((selector) => {
-		  cy.clickButton(selector); // Klikni na dugme
+		  cy.clickButton(selector); // Click the button
 		  cy.getCanvasNumber().then((newNumber) => {
-			cy.verifyNumbersAreDifferent(currentNumber, newNumber); // Proveri da su brojevi različiti
-			currentNumber = newNumber; // Ažuriraj broj za sledeći ciklus
+			cy.verifyNumbersAreDifferent(currentNumber, newNumber); // Verify that the numbers are different
+			currentNumber = newNumber; // Update the current number for the next iteration
 		  });
 		});
     });
