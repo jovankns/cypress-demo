@@ -1,26 +1,43 @@
+
 describe('Challenging DOM Tests', () => {
   beforeEach(() => {
-    // Proveri dostupnost stranice i poseti je pre svakog testa
-    cy.request('https://the-internet.herokuapp.com/challenging_dom').then((response) => {
-      expect(response.status).to.eq(200); // Proveri HTTP status
+    // Proveri da API vraća status 200 i poseti stranicu
+    cy.request('/challenging_dom').then((response) => {
+      expect(response.status).to.eq(200);
     });
-    cy.visit('https://the-internet.herokuapp.com/challenging_dom');
+    cy.visit('/challenging_dom');
   });
 
-  it('Clicks on all three main buttons using custom command', () => {
-    // Testiranje glavnih dugmadi
-    cy.clickAndCheckVisible('.button');
-    cy.clickAndCheckVisible('.button.alert');
-    cy.clickAndCheckVisible('.button.success');
+  it('Clicks each main button and verifies canvas number changes', () => {
+    // Dohvati početni broj sa canvasa
+    cy.getCanvasNumber().then((currentNumber) => {
+      cy.log(`Current number: ${currentNumber}`);
+      
+		const buttons = ['.button', '.button.alert', '.button.success'];
+
+		// Iteriraj kroz dugmad i primeni komande
+		cy.wrap(buttons).each((selector) => {
+		  cy.clickButton(selector); // Klikni na dugme
+		  cy.getCanvasNumber().then((newNumber) => {
+			cy.verifyNumbersAreDifferent(currentNumber, newNumber); // Proveri da su brojevi različiti
+			currentNumber = newNumber; // Ažuriraj broj za sledeći ciklus
+		  });
+		});
+    });
   });
 
-  it('Clicks on all Edit buttons and verifies actions using custom command', () => {
-    // Klik na sva "Edit" dugmad pomoću prilagođene komande
-    cy.clickAndCheckVisible('a[href="#edit"]');
-  });
+	it('Clicks on all buttons in a table (Edit/Delete)', () => {
+		const buttons = ['#edit', '#delete'];
+		cy.wrap(buttons).each((action) => {
+		  cy.get(`a[href="${action}"]`).each(($btn) => {
+			// Click the button
+			cy.clickButton($btn);
 
-  it('Clicks on all Delete buttons and verifies actions using custom command', () => {
-    // Klik na sva "Delete" dugmad pomoću prilagođene komande
-    cy.clickAndCheckVisible('a[href="#delete"]');
-  });
+			// Verify the button still exists after clicking
+			cy.wrap($btn).should('exist');
+		  });
+		});
+	});
 });
+
+

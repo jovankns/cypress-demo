@@ -9,7 +9,7 @@ The project contains automated tests for the following scenarios:
 The tests are designed with Cypress best practices, including the use of custom commands, reusable locators, and Mocha hooks.
 
 ## Features
-- Custom commands for reusable actions (e.g., `clickAndCheckVisible`).
+- Custom Commands for reusable actions (`getCanvasNumber`, `clickButton`, `verifyNumbersAreDifferent`).
 - Integration of Mocha hooks (`beforeEach`) for setup tasks.
 - Validation of page availability using `cy.request`.
 - Stable locators for robust test execution.
@@ -30,10 +30,11 @@ cd cypress-demo
 npm install
 
 4. Open Cypress GUI:
-    npx cypress open
-    Run tests from the GUI.
+npx cypress open
+  
+5. From the GUI, run the tests located in challenging_dom.cy.js.
 
-5. File Structure
+6. Project Structure
 cypress-demo/
 ├── cypress/
 │   ├── e2e/
