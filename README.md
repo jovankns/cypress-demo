@@ -4,6 +4,8 @@ This is a demo Cypress project created as part of a QA automation challenge for 
 ## Project Description
 The project contains automated tests for the following scenarios:
 1. Clicking on three main buttons (`foo`, `qux`, `baz`) and verifying their state.
+	- The number extracted from the canvas before and after clicking a button is different.
+	- Each button's functionality and impact on the canvas is validated.
 2. Clicking on all "Edit" and "Delete" buttons in a table and verifying their state.
 
 The tests are designed with Cypress best practices, including the use of custom commands, reusable locators, and Mocha hooks.
